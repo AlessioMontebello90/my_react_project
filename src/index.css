@@ -1,0 +1,120 @@
+/* Tailwind CSS base styles */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Aggiungi qui i tuoi stili personalizzati */
+
+/* Stili globali di base */
+body {
+  @apply bg-gray-100 text-gray-800;
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+}
+
+/* Header styles */
+header {
+  @apply bg-blue-600 text-white p-4;
+}
+
+header h1 {
+  @apply text-2xl font-bold;
+}
+
+header nav ul {
+  @apply flex space-x-4;
+}
+
+header nav a {
+  @apply text-white hover:underline;
+}
+
+/* Footer styles */
+footer {
+  @apply bg-gray-800 text-white p-4 mt-8 text-center;
+}
+
+/* Button styles */
+button {
+  @apply bg-blue-500 text-white px-4 py-2 rounded;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  @apply bg-blue-600;
+}
+
+/* Card styles */
+.product-card {
+  @apply border rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow duration-200;
+}
+
+.product-card img {
+  @apply h-48 w-full object-cover mb-4;
+}
+
+.product-card h2 {
+  @apply text-lg font-semibold mb-2;
+}
+
+.product-card p {
+  @apply text-gray-700;
+}
+
+/* Utility class for grid layout */
+.grid {
+  @apply grid gap-8;
+}
+
+.grid-cols-1 {
+  @apply grid-cols-1;
+}
+
+@screen sm {
+  .grid-cols-2 {
+    @apply grid-cols-2;
+  }
+}
+
+@screen lg {
+  .grid-cols-3 {
+    @apply grid-cols-3;
+  }
+}
+
+/* Stili per il carrello */
+.cart-item {
+  @apply border-b py-4 flex justify-between items-center;
+}
+
+.cart-item h2 {
+  @apply text-xl font-semibold;
+}
+
+.cart-item p {
+  @apply text-gray-700;
+}
+
+.cart-item button {
+  @apply text-red-500 hover:underline;
+}
+
+/* Stili per la pagina del checkout */
+.checkout-form {
+  @apply max-w-lg mx-auto p-4 bg-white shadow-md rounded-lg;
+}
+
+.checkout-form label {
+  @apply block text-lg font-medium mb-2;
+}
+
+.checkout-form input {
+  @apply w-full p-2 border rounded mb-4;
+}
+
+.checkout-form button {
+  @apply bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600;
+}
+

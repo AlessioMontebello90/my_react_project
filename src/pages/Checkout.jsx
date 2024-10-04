@@ -1,13 +1,33 @@
-// src/pages/Checkout.jsx
+import { useState } from 'react';
+import { useCart } from '../context/CartContext';
 
 function Checkout() {
-    return (
+  const { cartItems, setCartItems } = useCart();
+  const [name, setName] = useState('');
+  const [address, setAddress] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    alert(`Order placed by ${name} to ${address}`);
+    setCartItems([]);  // Svuota il carrello al termine
+  };
+
+  if (cartItems.length === 0) return <div>Your cart is empty</div>;
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <h1>Checkout</h1>
       <div>
-        <h1>Checkout</h1>
-        {/* Logica e struttura del checkout */}
+        <label>Name</label>
+        <input value={name} onChange={(e) => setName(e.target.value)} required />
       </div>
-    );
-  }
-  
-  export default Checkout;  // Assicurati di esportare il componente come default
-  
+      <div>
+        <label>Address</label>
+        <input value={address} onChange={(e) => setAddress(e.target.value)} required />
+      </div>
+      <button type="submit">Place Order</button>
+    </form>
+  );
+}
+
+export default Checkout;
