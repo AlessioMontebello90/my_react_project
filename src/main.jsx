@@ -3,24 +3,24 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import { CartProvider } from './context/CartContext';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 
-// Creazione del tema personalizzato di Material-UI
+// Importa gli stili di slick-carousel direttamente qui
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
+// Crea il tema globale
 const theme = createTheme({
+  typography: {
+    fontFamily: '"Roboto", sans-serif',
+  },
   palette: {
-    background: {
-      default: '#f7fafc',
-    },
     primary: {
-      main: '#1976d2',  // Blu principale di Material-UI
+      main: '#d32f2f',
     },
     secondary: {
-      main: '#f50057',  // Rosa acceso per il colore secondario
+      main: '#f44336',
     },
-  },
-  typography: {
-    fontFamily: 'Arial, sans-serif',
   },
 });
 
@@ -28,7 +28,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <BrowserRouter>
     <CartProvider>
       <ThemeProvider theme={theme}>
-        <CssBaseline />  {/* Reset dei CSS globali con Material-UI */}
         <App />
       </ThemeProvider>
     </CartProvider>

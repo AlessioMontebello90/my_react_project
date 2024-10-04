@@ -1,23 +1,22 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, Container } from '@mui/material';
 
 function Footer() {
   return (
     <Box 
       component="footer" 
       sx={{
-        backgroundColor: 'primary.dark',  // Usa il colore scuro definito nel tema
+        backgroundColor: '#333',
         color: 'white',
-        padding: '16px',
-        marginTop: 'auto',  // Assicura che il footer stia in fondo
-        textAlign: 'center'
+        padding: '16px 0',
+        textAlign: 'center',
+        fontSize: '0.875rem',  // Font più piccolo
       }}
     >
-      <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
-        © 2024 E-Commerce. All rights reserved.
-      </Typography>
-      <Typography variant="caption" sx={{ marginTop: '8px', display: 'block' }}>
-        Powered by React & Material-UI
-      </Typography>
+      <Container>
+        <Typography variant="body2">
+          © 2024 E-Commerce. All rights reserved.
+        </Typography>
+      </Container>
     </Box>
   );
 }

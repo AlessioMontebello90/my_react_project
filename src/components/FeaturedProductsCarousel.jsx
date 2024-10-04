@@ -1,8 +1,8 @@
 import Slider from "react-slick";
-import { Box, Typography, Button, Card, CardMedia, CardContent } from "@mui/material";
+import { Box, Typography, Button, Card, CardMedia, CardContent, Container } from "@mui/material";
 import { Link } from "react-router-dom";
 
-// Esempio di array di prodotti in evidenza
+// Array di prodotti in evidenza come esempio
 const featuredProducts = [
   { id: 1, title: "Prodotto 1", image: "/images/prod1.jpg", price: 29.99 },
   { id: 2, title: "Prodotto 2", image: "/images/prod2.jpg", price: 39.99 },
@@ -11,67 +11,65 @@ const featuredProducts = [
 ];
 
 function FeaturedProductsCarousel() {
-  // Impostazioni del carosello
+  // Impostazioni del carosello più compatte
   const settings = {
     dots: true,
     infinite: true,
     speed: 500,
-    slidesToShow: 3,
+    slidesToShow: 2,  // Mostriamo 2 prodotti alla volta sui desktop
     slidesToScroll: 1,
     responsive: [
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-        },
-      },
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 1,
+          slidesToShow: 1,  // Mostra 1 slide su schermi più piccoli
           slidesToScroll: 1,
         },
       },
     ],
+    arrows: true, // Aggiungiamo frecce per navigare
   };
 
   return (
-    <Box sx={{ padding: "40px 0" }}>
-      <Typography variant="h4" textAlign="center" fontWeight="bold" gutterBottom>
-        Prodotti in Evidenza
-      </Typography>
-      <Slider {...settings}>
-        {featuredProducts.map((product) => (
-          <Box key={product.id} sx={{ padding: "0 10px" }}>
-            <Card sx={{ boxShadow: 3 }}>
-              <CardMedia
-                component="img"
-                height="200"
-                image={product.image}
-                alt={product.title}
-              />
-              <CardContent>
-                <Typography variant="h6" gutterBottom>
-                  {product.title}
-                </Typography>
-                <Typography variant="body2" color="text.secondary" gutterBottom>
-                  Prezzo: ${product.price}
-                </Typography>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  fullWidth
-                  component={Link}
-                  to={`/product/${product.id}`}
-                >
-                  Vedi Dettagli
-                </Button>
-              </CardContent>
-            </Card>
-          </Box>
-        ))}
-      </Slider>
+    <Box sx={{ padding: '20px 0', backgroundColor: '#f8f8f8' }}>
+      <Container>
+        <Typography variant="h5" textAlign="center" fontWeight="bold" sx={{ mb: 3 }}>
+          Prodotti in Evidenza
+        </Typography>
+        <Slider {...settings}>
+          {featuredProducts.map((product) => (
+            <Box key={product.id} sx={{ padding: "0 10px" }}>
+              <Card sx={{ maxWidth: 240, margin: '0 auto', boxShadow: 2, borderRadius: '8px' }}>
+                <CardMedia
+                  component="img"
+                  height="140"
+                  image={product.image}
+                  alt={product.title}
+                />
+                <CardContent>
+                  <Typography gutterBottom variant="subtitle1" fontWeight="bold" sx={{ fontSize: '0.875rem' }}>
+                    {product.title}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary" sx={{ marginBottom: 2, fontSize: '0.75rem' }}>
+                    Prezzo: ${product.price}
+                  </Typography>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    size="small"
+                    component={Link}
+                    to={`/product/${product.id}`}
+                    sx={{ padding: '6px 0', fontSize: '0.75rem' }}
+                  >
+                    Vedi Dettagli
+                  </Button>
+                </CardContent>
+              </Card>
+            </Box>
+          ))}
+        </Slider>
+      </Container>
     </Box>
   );
 }

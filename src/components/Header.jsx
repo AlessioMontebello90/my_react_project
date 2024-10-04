@@ -1,39 +1,21 @@
-import { AppBar, Toolbar, Typography, Button, Container, Box, IconButton } from '@mui/material';
+import { AppBar, Toolbar, Typography, Button, Container, Box } from '@mui/material';
 import { Link } from 'react-router-dom';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import HomeIcon from '@mui/icons-material/Home';
-import { useState, useEffect } from 'react';
 
 function Header() {
-  const [elevated, setElevated] = useState(false);
-
-  // Effetto dinamico per cambiare l'elevazione dell'AppBar quando si scorre verso il basso
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setElevated(true);
-      } else {
-        setElevated(false);
-      }
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
   return (
-    <AppBar position="fixed" sx={{ zIndex: 10 }} elevation={elevated ? 4 : 0}>
+    <AppBar position="fixed" sx={{ zIndex: 10, padding: '8px 0' }}>
       <Toolbar>
         <Container maxWidth="lg" sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Typography variant="h5" component="div" sx={{ fontWeight: 'bold' }}>
+          <Typography variant="h6" component="div" sx={{ fontWeight: '500', fontSize: '1.25rem' }}>
             E-Commerce
           </Typography>
           <Box component="nav">
-            <IconButton color="inherit" component={Link} to="/" sx={{ marginRight: '16px' }}>
-              <HomeIcon />
-            </IconButton>
-            <IconButton color="inherit" component={Link} to="/cart">
-              <ShoppingCartIcon />
-            </IconButton>
+            <Button color="inherit" component={Link} to="/" sx={{ marginRight: '12px', fontSize: '0.875rem' }}>
+              Home
+            </Button>
+            <Button color="inherit" component={Link} to="/cart" sx={{ fontSize: '0.875rem' }}>
+              Cart
+            </Button>
           </Box>
         </Container>
       </Toolbar>
