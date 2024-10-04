@@ -1,71 +1,80 @@
 import Slider from "react-slick";
-import { Box, Typography, Button, Card, CardMedia, CardContent, Container } from "@mui/material";
-import { Link } from "react-router-dom";
-
-// Array di prodotti in evidenza come esempio
-const featuredProducts = [
-  { id: 1, title: "Prodotto 1", image: "/images/prod1.jpg", price: 29.99 },
-  { id: 2, title: "Prodotto 2", image: "/images/prod2.jpg", price: 39.99 },
-  { id: 3, title: "Prodotto 3", image: "/images/prod3.jpg", price: 19.99 },
-  { id: 4, title: "Prodotto 4", image: "/images/prod4.jpg", price: 49.99 },
-];
+import { Box, Container, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
+import { getProducts } from "../api/products";  // Importa la funzione per ottenere i prodotti dall'API
 
 function FeaturedProductsCarousel() {
-  // Impostazioni del carosello più compatte
+  const [products, setProducts] = useState([]);
+
+  // Effettua la chiamata all'API quando il componente è montato
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const productsFromAPI = await getProducts();  // Ottiene i prodotti dall'API
+      setProducts(productsFromAPI);
+    };
+
+    fetchProducts();
+  }, []);
+
   const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 2,  // Mostriamo 2 prodotti alla volta sui desktop
-    slidesToScroll: 1,
+    dots: true,  // Mostra i puntini
+    infinite: true,  // Loop infinito
+    speed: 500,  // Velocità di transizione
+    slidesToShow: 3,  // Mostra 3 immagini alla volta
+    slidesToScroll: 1,  // Scorre 1 immagine alla volta
+    autoplay: true,  // Abilita autoplay
+    autoplaySpeed: 3000,  // Velocità autoplay
     responsive: [
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: 1,  // Mostra 1 slide su schermi più piccoli
+          slidesToShow: 2,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 1,
           slidesToScroll: 1,
         },
       },
     ],
-    arrows: true, // Aggiungiamo frecce per navigare
+    arrows: true,  // Mostra frecce
   };
 
   return (
-    <Box sx={{ padding: '20px 0', backgroundColor: '#f8f8f8' }}>
+    <Box sx={{ padding: '40px 0', backgroundColor: '#f8f8f8' }}>
       <Container>
-        <Typography variant="h5" textAlign="center" fontWeight="bold" sx={{ mb: 3 }}>
+        {/* Titolo del carosello */}
+        <Typography variant="h5" textAlign="center" fontWeight="bold" sx={{ mb: 4 }}>
           Prodotti in Evidenza
         </Typography>
+
+        {/* Carosello */}
         <Slider {...settings}>
-          {featuredProducts.map((product) => (
-            <Box key={product.id} sx={{ padding: "0 10px" }}>
-              <Card sx={{ maxWidth: 240, margin: '0 auto', boxShadow: 2, borderRadius: '8px' }}>
-                <CardMedia
-                  component="img"
-                  height="140"
-                  image={product.image}
-                  alt={product.title}
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="subtitle1" fontWeight="bold" sx={{ fontSize: '0.875rem' }}>
-                    {product.title}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary" sx={{ marginBottom: 2, fontSize: '0.75rem' }}>
-                    Prezzo: ${product.price}
-                  </Typography>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    fullWidth
-                    size="small"
-                    component={Link}
-                    to={`/product/${product.id}`}
-                    sx={{ padding: '6px 0', fontSize: '0.75rem' }}
-                  >
-                    Vedi Dettagli
-                  </Button>
-                </CardContent>
-              </Card>
+          {products.map((product) => (
+            <Box
+              key={product.id}
+              sx={{
+                padding: "0 10px",
+                textAlign: 'center',
+                display: 'flex',
+                justifyContent: 'center',
+              }}
+            >
+              {/* Immagine del prodotto */}
+              <img
+                src={product.image}  // Usa l'URL dell'immagine restituita dall'API
+                alt={product.title}
+                style={{
+                  width: '250px',  // Larghezza uniforme
+                  height: '250px',  // Altezza uniforme
+                  objectFit: 'cover',  // Mantiene il rapporto d'aspetto
+                  borderRadius: '10px',  // Angoli arrotondati
+                  boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',  // Ombra leggera
+                }}
+              />
             </Box>
           ))}
         </Slider>
