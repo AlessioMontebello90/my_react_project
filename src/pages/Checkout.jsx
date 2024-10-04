@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useCart } from '../context/CartContext';
+import { Container, TextField, Button, Typography, Box } from '@mui/material';
 
 function Checkout() {
   const { cartItems, setCartItems } = useCart();
@@ -12,21 +13,35 @@ function Checkout() {
     setCartItems([]);  // Svuota il carrello al termine
   };
 
-  if (cartItems.length === 0) return <div>Your cart is empty</div>;
+  if (cartItems.length === 0) return <Typography variant="h5" textAlign="center">Your cart is empty</Typography>;
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h1>Checkout</h1>
-      <div>
-        <label>Name</label>
-        <input value={name} onChange={(e) => setName(e.target.value)} required />
-      </div>
-      <div>
-        <label>Address</label>
-        <input value={address} onChange={(e) => setAddress(e.target.value)} required />
-      </div>
-      <button type="submit">Place Order</button>
-    </form>
+    <Container maxWidth="sm" sx={{ mt: 4 }}>
+      <Typography variant="h4" fontWeight="bold" gutterBottom>
+        Checkout
+      </Typography>
+      <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+        <TextField
+          label="Name"
+          variant="outlined"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+          fullWidth
+        />
+        <TextField
+          label="Address"
+          variant="outlined"
+          value={address}
+          onChange={(e) => setAddress(e.target.value)}
+          required
+          fullWidth
+        />
+        <Button type="submit" variant="contained" color="primary" size="large" sx={{ mt: 2 }}>
+          Place Order
+        </Button>
+      </Box>
+    </Container>
   );
 }
 

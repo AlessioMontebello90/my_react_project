@@ -1,7 +1,7 @@
-// src/pages/ProductDetails.jsx
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getProductById } from '../api/products';
+import { Container, Typography, Button, Grid, Box } from '@mui/material';
 
 function ProductDetails() {
   const { id } = useParams();
@@ -11,22 +11,30 @@ function ProductDetails() {
     getProductById(id).then((data) => setProduct(data));
   }, [id]);
 
-  if (!product) return <div>Loading...</div>;
+  if (!product) return <Typography variant="h6" textAlign="center">Loading...</Typography>;
 
   return (
-    <div className="container mx-auto p-8">
-      <h1 className="text-4xl font-bold mb-4">{product.title}</h1>
-      <div className="flex flex-col lg:flex-row gap-8">
-        <img className="w-full lg:w-1/2 object-cover" src={product.image} alt={product.title} />
-        <div className="flex-1">
-          <p className="text-lg mb-4">{product.description}</p>
-          <p className="text-2xl font-bold mb-8">Prezzo: ${product.price}</p>
-          <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+    <Container maxWidth="lg" sx={{ padding: '32px' }}>
+      <Typography variant="h3" fontWeight="bold" gutterBottom>
+        {product.title}
+      </Typography>
+      <Grid container spacing={4}>
+        <Grid item xs={12} lg={6}>
+          <Box component="img" src={product.image} alt={product.title} sx={{ width: '100%', objectFit: 'cover' }} />
+        </Grid>
+        <Grid item xs={12} lg={6}>
+          <Typography variant="body1" paragraph>
+            {product.description}
+          </Typography>
+          <Typography variant="h5" fontWeight="bold" mb={4}>
+            Prezzo: ${product.price}
+          </Typography>
+          <Button variant="contained" color="primary" size="large">
             Aggiungi al Carrello
-          </button>
-        </div>
-      </div>
-    </div>
+          </Button>
+        </Grid>
+      </Grid>
+    </Container>
   );
 }
 

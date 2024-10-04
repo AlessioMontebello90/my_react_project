@@ -1,7 +1,7 @@
-// src/pages/Home.jsx
 import { useEffect, useState } from 'react';
 import { getProducts } from '../api/products';
 import ProductCard from '../components/ProductCard';
+import { Container, Typography, Grid } from '@mui/material';
 
 function Home() {
   const [products, setProducts] = useState([]);
@@ -11,14 +11,18 @@ function Home() {
   }, []);
 
   return (
-    <div className="container mx-auto p-8">
-      <h1 className="text-3xl font-bold mb-8 text-center">Catalogo Prodotti</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+    <Container maxWidth="lg" sx={{ padding: '32px' }}>
+      <Typography variant="h4" fontWeight="bold" textAlign="center" gutterBottom>
+        Catalogo Prodotti
+      </Typography>
+      <Grid container spacing={4}>
         {products.map((product) => (
-          <ProductCard key={product.id} product={product} />
+          <Grid item key={product.id} xs={12} sm={6} md={4}>
+            <ProductCard product={product} />
+          </Grid>
         ))}
-      </div>
-    </div>
+      </Grid>
+    </Container>
   );
 }
 

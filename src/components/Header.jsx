@@ -1,17 +1,25 @@
-// src/components/Header.jsx
+import { AppBar, Toolbar, Typography, Button, Container, Box } from '@mui/material';
+import { Link } from 'react-router-dom';
+
 function Header() {
   return (
-    <header className="bg-blue-600 text-white p-4 shadow-lg fixed w-full z-10">
-      <div className="container mx-auto flex justify-between items-center">
-        <h1 className="text-2xl font-bold">E-Commerce</h1>
-        <nav>
-          <ul className="flex space-x-4">
-            <li><a href="/" className="hover:underline">Home</a></li>
-            <li><a href="/cart" className="hover:underline">Cart</a></li>
-          </ul>
-        </nav>
-      </div>
-    </header>
+    <AppBar position="fixed" sx={{ zIndex: 10 }}>
+      <Toolbar>
+        <Container maxWidth="lg" sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Typography variant="h6" component="div" sx={{ fontWeight: 'bold' }}>
+            E-Commerce
+          </Typography>
+          <Box component="nav">
+            <Button color="inherit" component={Link} to="/" sx={{ marginRight: '16px' }}>
+              Home
+            </Button>
+            <Button color="inherit" component={Link} to="/cart">
+              Cart
+            </Button>
+          </Box>
+        </Container>
+      </Toolbar>
+    </AppBar>
   );
 }
 
