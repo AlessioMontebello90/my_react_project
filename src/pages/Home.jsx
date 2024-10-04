@@ -1,19 +1,30 @@
 import { useEffect, useState } from 'react';
 import { getProducts } from '../api/products';
 import ProductCard from '../components/ProductCard';
-import { Container, Typography, Grid } from '@mui/material';
+import FeaturedProductsCarousel from '../components/FeaturedProductsCarousel';
+import { Box, Typography, Grid } from '@mui/material';
 
 function Home() {
   const [products, setProducts] = useState([]);
+  const [featuredProducts, setFeaturedProducts] = useState([]);
 
   useEffect(() => {
-    getProducts().then((data) => setProducts(data));
+    // Ottieni tutti i prodotti
+    getProducts().then((data) => {
+      setProducts(data);
+      // Seleziona alcuni prodotti come "in evidenza"
+      setFeaturedProducts(data.slice(0, 5));  // Mostra i primi 5 prodotti come esempio
+    });
   }, []);
 
   return (
-    <Container maxWidth="lg" sx={{ padding: '32px' }}>
-      <Typography variant="h4" fontWeight="bold" textAlign="center" gutterBottom>
-        Catalogo Prodotti
+    <Box sx={{ padding: '40px' }}>
+      {/* Carosello per i prodotti in evidenza */}
+      {featuredProducts.length > 0 && <FeaturedProductsCarousel products={featuredProducts} />}
+
+      {/* Lista di prodotti */}
+      <Typography variant="h4" fontWeight="bold" gutterBottom>
+        Tutti i Prodotti
       </Typography>
       <Grid container spacing={4}>
         {products.map((product) => (
@@ -22,7 +33,7 @@ function Home() {
           </Grid>
         ))}
       </Grid>
-    </Container>
+    </Box>
   );
 }
 

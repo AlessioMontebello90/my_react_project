@@ -1,36 +1,62 @@
 import { useCart } from '../context/CartContext';
-import { Container, Typography, Button, Divider, Box } from '@mui/material';
+import { Grid, Typography, Button, Box, IconButton, Divider } from '@mui/material';
+import { Add, Remove, Delete } from '@mui/icons-material';
+import { useState } from 'react';
 
 function Cart() {
-  const { cartItems, removeFromCart } = useCart();
+  const { cartItems, addToCart, decrementQuantity, removeFromCart } = useCart();
+  const [total, setTotal] = useState(0);
 
-  if (cartItems.length === 0) {
-    return (
-      <Container sx={{ textAlign: 'center', padding: '40px' }}>
-        <Typography variant="h5">Il carrello è vuoto</Typography>
-      </Container>
-    );
-  }
+  // Calcola il totale ogni volta che cambia il contenuto del carrello
+  useState(() => {
+    const totalPrice = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+    setTotal(totalPrice);
+  }, [cartItems]);
+
+  if (cartItems.length === 0) return <Typography variant="h6" textAlign="center">Il carrello è vuoto</Typography>;
 
   return (
-    <Container sx={{ padding: '40px' }}>
-      <Typography variant="h4" fontWeight="bold" textAlign="center" mb={4}>
+    <Box sx={{ padding: '40px' }}>
+      <Typography variant="h4" fontWeight="bold" gutterBottom>
         Il tuo carrello
       </Typography>
-      {cartItems.map((item) => (
-        <Box key={item.id} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 0' }}>
-          <Typography variant="h6">{item.title}</Typography>
-          <Typography variant="body1">${item.price}</Typography>
-          <Button color="error" onClick={() => removeFromCart(item.id)}>
-            Rimuovi
-          </Button>
-          <Divider />
-        </Box>
-      ))}
-      <Typography variant="h5" fontWeight="bold" mt={4}>
-        Totale: ${cartItems.reduce((acc, item) => acc + item.price, 0)}
-      </Typography>
-    </Container>
+      <Grid container spacing={4}>
+        {cartItems.map((item) => (
+          <Grid key={item.id} item xs={12} sm={6} md={4}>
+            <Box sx={{ border: '1px solid #ddd', padding: '16px', borderRadius: '8px' }}>
+              <img src={item.image} alt={item.title} style={{ width: '100%', height: 'auto', marginBottom: '16px' }} />
+              <Typography variant="h6" gutterBottom>{item.title}</Typography>
+              <Typography variant="body2" color="text.secondary" gutterBottom>
+                Prezzo: ${item.price}
+              </Typography>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <IconButton onClick={() => decrementQuantity(item.id)} color="primary">
+                    <Remove />
+                  </IconButton>
+                  <Typography variant="body1" sx={{ mx: 2 }}>{item.quantity}</Typography>
+                  <IconButton onClick={() => addToCart(item)} color="primary">
+                    <Add />
+                  </IconButton>
+                </Box>
+                <IconButton onClick={() => removeFromCart(item.id)} color="error">
+                  <Delete />
+                </IconButton>
+              </Box>
+              <Divider />
+            </Box>
+          </Grid>
+        ))}
+      </Grid>
+      <Box sx={{ marginTop: '40px', textAlign: 'center' }}>
+        <Typography variant="h5" fontWeight="bold">
+          Totale: ${total.toFixed(2)}
+        </Typography>
+        <Button variant="contained" color="primary" size="large" sx={{ marginTop: '16px' }}>
+          Procedi al Checkout
+        </Button>
+      </Box>
+    </Box>
   );
 }
 

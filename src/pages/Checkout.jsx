@@ -1,47 +1,76 @@
 import { useState } from 'react';
+import { Box, TextField, Button, Typography, Grid } from '@mui/material';
 import { useCart } from '../context/CartContext';
-import { Container, TextField, Button, Typography, Box } from '@mui/material';
 
 function Checkout() {
   const { cartItems, setCartItems } = useCart();
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
+  const [orderPlaced, setOrderPlaced] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert(`Order placed by ${name} to ${address}`);
-    setCartItems([]);  // Svuota il carrello al termine
+    
+    // Logica per l'invio dell'ordine
+    if (name && address) {
+      setOrderPlaced(true);  // Mostra il messaggio di conferma
+      setCartItems([]);  // Svuota il carrello
+    }
   };
 
-  if (cartItems.length === 0) return <Typography variant="h5" textAlign="center">Your cart is empty</Typography>;
+  if (orderPlaced) {
+    return (
+      <Box sx={{ padding: '40px', textAlign: 'center' }}>
+        <Typography variant="h4" fontWeight="bold" gutterBottom>
+          Grazie per il tuo ordine, {name}!
+        </Typography>
+        <Typography variant="body1" gutterBottom>
+          Il tuo ordine verrà spedito a: {address}
+        </Typography>
+        <Typography variant="body1">
+          Hai ordinato {cartItems.length} prodotti. Ti arriverà una mail con i dettagli.
+        </Typography>
+      </Box>
+    );
+  }
 
   return (
-    <Container maxWidth="sm" sx={{ mt: 4 }}>
+    <Box component="form" onSubmit={handleSubmit} sx={{ padding: '40px', maxWidth: '600px', margin: 'auto' }}>
       <Typography variant="h4" fontWeight="bold" gutterBottom>
         Checkout
       </Typography>
-      <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-        <TextField
-          label="Name"
-          variant="outlined"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-          fullWidth
-        />
-        <TextField
-          label="Address"
-          variant="outlined"
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
-          required
-          fullWidth
-        />
-        <Button type="submit" variant="contained" color="primary" size="large" sx={{ mt: 2 }}>
-          Place Order
-        </Button>
-      </Box>
-    </Container>
+      <Grid container spacing={3}>
+        <Grid item xs={12}>
+          <TextField
+            label="Nome completo"
+            fullWidth
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            label="Indirizzo di spedizione"
+            fullWidth
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+            required
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            fullWidth
+            sx={{ padding: '12px' }}
+          >
+            Completa l'Ordine
+          </Button>
+        </Grid>
+      </Grid>
+    </Box>
   );
 }
 
